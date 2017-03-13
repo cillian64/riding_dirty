@@ -1,7 +1,7 @@
 #!/home/dwt27/git/riding_dirty/venv/bin/python
 
 from git import Repo
-import sys
+import argparse
 
 
 def printv(string):
@@ -45,9 +45,16 @@ def check_repo(path):
 
 
 if __name__ == "__main__":
-    verbose = False
-    if len(sys.argv) == 2:
-        if sys.argv[1] in ("-v", "-V", "--verbose"):
-            verbose = True
+    parser = argparse.ArgumentParser(description="""
+Check one or many git repositories for untracked files, uncommitted changes, or
+commits not pushed to remotes""")
+    parser.add_argument("path", type=str, nargs="+", help="""
+The path of each repository to check""")
+    parser.add_argument("-v", "--verbose", action="store_true", help="""
+Verbose output: print everything we check, every step we take.""")
+    args = parser.parse_args()
+    paths = args.path
+    verbose = args.verbose
 
-    check_repo("/home/dwt27/git/riding_dirty")
+    for path in paths:
+        check_repo(path)
