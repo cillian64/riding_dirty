@@ -1,4 +1,4 @@
-#!/home/dwt27/git/riding_dirty/venv/bin/python
+#!/usr/bin/env python3
 
 from git import Repo
 import argparse
