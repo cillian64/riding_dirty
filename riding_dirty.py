@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from git import Repo
+from git import Repo, InvalidGitRepositoryError
 import argparse
 
 
@@ -16,7 +16,11 @@ def check_repo(path):
     """
     repo_name = path.split("/")[-1]
     printv("Repo {}".format(repo_name))
-    repo = Repo(path)
+    try:
+        repo = Repo(path)
+    except InvalidGitRepositoryError:
+        print("Repo {} is not a git repo.".format(repo_name))
+        return
     if repo.bare:
         return
     if repo.is_dirty():
